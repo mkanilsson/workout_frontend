@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
-import 'package:workout_frontend/pages/add_exercise.dart';
 
 class ExercisesPage extends StatefulWidget {
   const ExercisesPage({super.key});

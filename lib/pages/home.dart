@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_frontend/pages/exercises.dart';
-import 'package:workout_frontend/pages/other_tab.dart';
+import 'package:workout_frontend/pages/workout.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: const TabBarView(
-          children: [OtherTabPage(), ExercisesPage()],
+          children: [WorkoutPage(), ExercisesPage()],
         ),
       ),
     );
