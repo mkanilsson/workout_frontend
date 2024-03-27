@@ -15,21 +15,15 @@ class _ExercisesPageState extends State<ExercisesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 40, 40, 40),
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: const Text("Workout"),
-        actions: const [],
-      ),
       body: FutureBuilder(
         future: ExerciseAPI.getAllExercises(AuthService.token!),
         builder: loadingBuilder,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Add new Exercise',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 

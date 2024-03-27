@@ -9,7 +9,7 @@ void main() async {
   var loggedIn = await AuthService.loadAndRefresh();
 
   if (loggedIn) {
-    defaultPage = const ExercisesPage();
+    defaultPage = const HomePage();
   }
 
   runApp(
