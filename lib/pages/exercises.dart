@@ -12,13 +12,46 @@ class ExercisesPage extends StatefulWidget {
 }
 
 class _ExercisesPageState extends State<ExercisesPage> {
+  var _loading = true;
+  var _success = true;
+  List<ExerciseResponse> _exercises = [];
+  String _message = "";
+
+  @override
+  void initState() {
+    super.initState();
+    refresh();
+  }
+
+  void refresh() async {
+    setState(() {
+      _loading = true;
+    });
+
+    var response = await ExerciseAPI.getAllExercises(AuthService.token!);
+
+    setState(() {
+      _success = response.status == ResponseStatus.success;
+      _loading = false;
+      _message = response.message;
+      if (_success) {
+        _exercises = response.data!;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget widgetToShow = loading();
+
+    if (_loading == false && _success == false) {
+      widgetToShow = failed();
+    } else if (_loading == false) {
+      widgetToShow = loaded();
+    }
+
     return Scaffold(
-      body: FutureBuilder(
-        future: ExerciseAPI.getAllExercises(AuthService.token!),
-        builder: loadingBuilder,
-      ),
+      body: widgetToShow,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed("/add_exercise");
@@ -29,37 +62,27 @@ class _ExercisesPageState extends State<ExercisesPage> {
     );
   }
 
-  Widget loadingBuilder(BuildContext context,
-      AsyncSnapshot<Response<List<ExerciseResponse>>> snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return const Center(
-        child: Text("Loading..."),
-      );
-    } else {
-      if (snapshot.hasError) {
-        return Center(child: Text("Something went wrong ${snapshot.error}"));
-      } else {
-        if (snapshot.data!.status == ResponseStatus.success) {
-          return loaded(snapshot.data!.data!);
-        } else {
-          var message = snapshot.data!.message;
-          return Center(child: Text("Something went wrong: $message"));
-        }
-      }
-    }
+  Widget loading() {
+    return const Center(
+      child: Text("Loading..."),
+    );
   }
 
-  Widget loaded(List<ExerciseResponse> exercises) {
+  Widget failed() {
+    return Center(child: Text("Something went wrong: $_message"));
+  }
+
+  Widget loaded() {
     return Container(
       padding: const EdgeInsets.all(5),
       child: ListView.separated(
-        itemCount: exercises.length,
+        itemCount: _exercises.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(
-              exercises[index].name,
+              _exercises[index].name,
             ),
-            subtitle: Text(exercises[index].exerciseType.description),
+            subtitle: Text(_exercises[index].exerciseType.description),
           );
         },
         separatorBuilder: (BuildContext context, int index) {
