@@ -46,22 +46,39 @@ class Response<T> {
 class API {
   static Future<Map<String, dynamic>> post(
       String endpoint, dynamic body) async {
-    var response = await http.post(Uri.parse("$baseURL/api$endpoint"),
-        body: jsonEncode(body), headers: {"Content-Type": "application/json"});
+    var response = await http.post(
+      Uri.parse("$baseURL/api$endpoint"),
+      body: jsonEncode(body),
+      headers: {"Content-Type": "application/json"},
+    );
+    return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> postWithAuth(
+      String endpoint, String token, dynamic body) async {
+    var response = await http.post(
+      Uri.parse("$baseURL/api$endpoint"),
+      body: jsonEncode(body),
+      headers: {"Content-Type": "application/json", "Authorization": token},
+    );
     return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
   }
 
   static Future<Map<String, dynamic>> getWithAuth(
       String endpoint, String token) async {
-    var response = await http.get(Uri.parse("$baseURL/api$endpoint"),
-        headers: {"Authorization": token});
+    var response = await http.get(
+      Uri.parse("$baseURL/api$endpoint"),
+      headers: {"Authorization": token},
+    );
     return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
   }
 
   static Future<Map<String, dynamic>> deleteWithAuth(
       String endpoint, String token) async {
-    var response = await http.delete(Uri.parse("$baseURL/api$endpoint"),
-        headers: {"Authorization": token});
+    var response = await http.delete(
+      Uri.parse("$baseURL/api$endpoint"),
+      headers: {"Authorization": token},
+    );
     return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
   }
 }

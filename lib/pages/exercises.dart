@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/pages/add_exercise.dart';
 
 class ExercisesPage extends StatefulWidget {
   const ExercisesPage({super.key});
@@ -20,7 +21,9 @@ class _ExercisesPageState extends State<ExercisesPage> {
         builder: loadingBuilder,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed("/add_exercise");
+        },
         tooltip: 'Add new Exercise',
         child: const Icon(Icons.add),
       ),
@@ -60,6 +63,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 color: Color.fromARGB(255, 219, 219, 178),
               ),
             ),
+            subtitle: Text(exercises[index].exerciseType.description),
             tileColor: const Color.fromARGB(255, 29, 32, 33),
           );
         },

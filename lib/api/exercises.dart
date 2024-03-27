@@ -3,6 +3,36 @@ import 'package:workout_frontend/api/api.dart';
 
 enum ExerciseType { staticExercise, distanceOverTime, weightOverAmount }
 
+extension ExerciseTypeExtension on ExerciseType {
+  String get description {
+    switch (this) {
+      case ExerciseType.staticExercise:
+        return "Weight and Time";
+      case ExerciseType.distanceOverTime:
+        return "Distance and Time";
+      case ExerciseType.weightOverAmount:
+        return "Weight and Reps";
+      default:
+    }
+
+    return "WTF";
+  }
+
+  String get value {
+    switch (this) {
+      case ExerciseType.staticExercise:
+        return "Static";
+      case ExerciseType.distanceOverTime:
+        return "DistanceOverTime";
+      case ExerciseType.weightOverAmount:
+        return "WeightOverAmount";
+      default:
+    }
+
+    return "WTF";
+  }
+}
+
 class ExerciseResponse {
   String id;
   String userId;
@@ -55,5 +85,17 @@ class ExerciseAPI {
 
       return items;
     });
+  }
+
+  static Future<Response<ExerciseResponse>> create(
+      String token, String name, ExerciseType exerciseType) async {
+    var json = await API.postWithAuth(
+      "/exercises",
+      token,
+      {"name": name, "exercise_type": exerciseType.value},
+    );
+
+    return Response<ExerciseResponse>.fromJsonMap(
+        json, ExerciseResponse.fromJson);
   }
 }

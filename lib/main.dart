@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_frontend/auth_service.dart';
-import 'package:workout_frontend/pages/exercises.dart';
+import 'package:workout_frontend/pages/add_exercise.dart';
 import 'package:workout_frontend/pages/home.dart';
 import 'package:workout_frontend/pages/login.dart';
 
@@ -25,6 +25,7 @@ void main() async {
       routes: <String, WidgetBuilder>{
         "/home": (BuildContext context) => const HomePage(),
         "/login": (BuildContext context) => const LoginPage(),
+        "/add_exercise": (BuildContext context) => const AddExercisePage(),
       },
     ),
   );
