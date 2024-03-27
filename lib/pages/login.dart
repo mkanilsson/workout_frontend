@@ -26,7 +26,6 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 40, 40, 40),
       body: Container(
         padding: const EdgeInsets.all(25),
         child: Center(
@@ -38,9 +37,8 @@ class _LoginPage extends State<LoginPage> {
                 child: const Text(
                   "Login",
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 24,
-                  ), // TODO: TextStyle
+                  ),
                 ),
               ),
               Align(
@@ -48,15 +46,13 @@ class _LoginPage extends State<LoginPage> {
                 child: const Text(
                   "Email",
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 16,
                     height: 0.5,
-                  ), // TODO: TextStyle
+                  ),
                   textAlign: TextAlign.left,
                 ),
               ),
               TextField(
-                style: const TextStyle(color: Colors.white), // TODO: TextStyle
                 controller: emailController,
               ),
               const SizedBox(height: 35),
@@ -65,33 +61,21 @@ class _LoginPage extends State<LoginPage> {
                 child: const Text(
                   "Password",
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 16,
                     height: 0.5,
-                  ), // TODO: TextStyle
+                  ),
                   textAlign: TextAlign.left,
                 ),
               ),
               TextField(
-                style: const TextStyle(color: Colors.white), // TODO: TextStyle
                 obscureText: true,
                 controller: passwordController,
               ),
               const SizedBox(height: 35),
               TextButton(
                 onPressed: login,
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 72, 133, 136),
-                  ),
-                  padding: MaterialStateProperty.all(
-                    const EdgeInsets.fromLTRB(50, 20, 50, 20),
-                  ),
-                ),
                 child: const Text(
                   "Login",
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 16), // TODO: TextStyle
                 ),
               )
             ],

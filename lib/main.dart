@@ -3,6 +3,7 @@ import 'package:workout_frontend/auth_service.dart';
 import 'package:workout_frontend/pages/add_exercise.dart';
 import 'package:workout_frontend/pages/home.dart';
 import 'package:workout_frontend/pages/login.dart';
+import 'package:workout_frontend/theme.dart';
 
 void main() async {
   Widget defaultPage = const LoginPage();
@@ -16,12 +17,8 @@ void main() async {
     MaterialApp(
       title: "Workout",
       home: defaultPage,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 72, 133, 136),
-        ),
-        useMaterial3: true,
-      ),
+      theme: theme,
+      darkTheme: theme,
       routes: <String, WidgetBuilder>{
         "/home": (BuildContext context) => const HomePage(),
         "/login": (BuildContext context) => const LoginPage(),

@@ -15,7 +15,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 40, 40, 40),
       body: FutureBuilder(
         future: ExerciseAPI.getAllExercises(AuthService.token!),
         builder: loadingBuilder,
@@ -59,12 +58,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
           return ListTile(
             title: Text(
               exercises[index].name,
-              style: const TextStyle(
-                color: Color.fromARGB(255, 219, 219, 178),
-              ),
             ),
             subtitle: Text(exercises[index].exerciseType.description),
-            tileColor: const Color.fromARGB(255, 29, 32, 33),
           );
         },
         separatorBuilder: (BuildContext context, int index) {

@@ -32,7 +32,6 @@ class _AddExercisePage extends State<AddExercisePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 40, 40, 40),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -48,9 +47,8 @@ class _AddExercisePage extends State<AddExercisePage> {
                 child: const Text(
                   "Add Exercise",
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 24,
-                  ), // TODO: TextStyle
+                  ),
                 ),
               ),
               const Align(
@@ -58,15 +56,13 @@ class _AddExercisePage extends State<AddExercisePage> {
                 child: Text(
                   "Name",
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 16,
                     height: 0.5,
-                  ), // TODO: TextStyle
+                  ),
                   textAlign: TextAlign.left,
                 ),
               ),
               TextField(
-                style: const TextStyle(color: Colors.white), // TODO: TextStyle
                 controller: nameController,
                 onChanged: (value) {
                   setState(() {});
@@ -78,10 +74,9 @@ class _AddExercisePage extends State<AddExercisePage> {
                 child: Text(
                   "Type",
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 16,
                     height: 0.5,
-                  ), // TODO: TextStyle
+                  ),
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -114,20 +109,8 @@ class _AddExercisePage extends State<AddExercisePage> {
               const SizedBox(height: 35),
               TextButton(
                 onPressed: nameController.text.length > 4 ? add : null,
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    nameController.text.length > 4
-                        ? const Color.fromARGB(255, 72, 133, 136)
-                        : const Color.fromARGB(255, 168, 153, 132),
-                  ),
-                  padding: MaterialStateProperty.all(
-                    const EdgeInsets.fromLTRB(50, 20, 50, 20),
-                  ),
-                ),
                 child: const Text(
                   "Add",
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 16), // TODO: TextStyle
                 ),
               )
             ],

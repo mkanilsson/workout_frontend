@@ -15,7 +15,6 @@ class _HomePageState extends State<HomePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 40, 40, 40),
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -26,7 +25,6 @@ class _HomePageState extends State<HomePage> {
             Tab(text: "Workout"),
             Tab(text: "Exercises"),
           ],
-          labelColor: Color.fromARGB(255, 219, 219, 178),
         ),
         body: const TabBarView(
           children: [OtherTabPage(), ExercisesPage()],
