@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/pages/exercises.dart';
 import 'package:workout_frontend/pages/home.dart';
 import 'package:workout_frontend/pages/login.dart';
 
@@ -8,11 +9,11 @@ void main() async {
   var loggedIn = await AuthService.loadAndRefresh();
 
   if (loggedIn) {
-    defaultPage = const HomePage();
+    defaultPage = const ExercisesPage();
   }
 
   runApp(
-    new MaterialApp(
+    MaterialApp(
       title: "Workout",
       home: defaultPage,
       theme: ThemeData(

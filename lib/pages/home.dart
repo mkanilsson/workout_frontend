@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         title: const Text("Workout"),
-        actions: const [],
       ),
       body: Center(
         child: Column(
