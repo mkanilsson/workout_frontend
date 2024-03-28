@@ -66,6 +66,28 @@ class SetAPI {
     );
   }
 
+  static Future<Response<WorkoutSet>> create(
+    String token,
+    String exerciseWorkoutId,
+    SetType setType,
+  ) async {
+    var json = await API.postWithAuth(
+      "/sets",
+      token,
+      {
+        "exercise_workout_id": exerciseWorkoutId,
+        "quality": 0,
+        "quantity": 0,
+        "set_type": setType.value,
+      },
+    );
+
+    return Response<WorkoutSet>.fromJsonMap(
+      json,
+      WorkoutSet.fromJson,
+    );
+  }
+
   static Future<Response<WorkoutSet>> update(
     String token,
     String setId,

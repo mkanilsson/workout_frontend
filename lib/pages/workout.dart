@@ -117,8 +117,25 @@ class _WorkoutPageState extends State<WorkoutPage> {
     return Container(
       padding: const EdgeInsets.all(5),
       child: ListView.separated(
-        itemCount: _workout!.exercises.length,
+        itemCount: _workout!.exercises.length + 1,
         itemBuilder: (BuildContext context, int index) {
+          if (index == _workout!.exercises.length) {
+            return Row(
+              children: [
+                const SizedBox(
+                  height: 75,
+                ),
+                Expanded(
+                  child: Center(
+                    child: TextButton(
+                      onPressed: finishWorkout,
+                      child: const Text("Finish workout"),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
           var sets = _workout!.exercises[index].sets
               .asMap()
               .map(
@@ -153,7 +170,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        addWarmup(index);
+                      },
                       icon: const Icon(Icons.add),
                       label: const Text("Add warmup"),
                       style: ButtonStyle(
@@ -176,7 +195,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        addSet(index);
+                      },
                       icon: const Icon(Icons.add),
                       label: const Text("Add set"),
                       style: ButtonStyle(
@@ -370,6 +391,75 @@ class _WorkoutPageState extends State<WorkoutPage> {
       SnackBar(
         content: Text(text),
         backgroundColor: COLOR_ERROR,
+      ),
+    );
+  }
+
+  void addSet(int exerciseIndex) {
+    var exercise = _workout!.exercises[exerciseIndex];
+    SetAPI.create(
+      AuthService.token!,
+      exercise.exerciseWorkoutId,
+      SetType.normal,
+    ).then((response) {
+      if (response.status == ResponseStatus.success) {
+        setState(() {
+          _workout!.exercises[exerciseIndex].sets.add(response.data!);
+        });
+      } else {
+        showErrorSnackbar("Failed to add Warmup");
+      }
+    });
+  }
+
+  void addWarmup(int exerciseIndex) {
+    var exercise = _workout!.exercises[exerciseIndex];
+    SetAPI.create(
+      AuthService.token!,
+      exercise.exerciseWorkoutId,
+      SetType.warmup,
+    ).then((response) {
+      if (response.status == ResponseStatus.success) {
+        var index = exercise.sets
+            .where((element) => element.setType == SetType.warmup)
+            .length;
+
+        setState(() {
+          _workout!.exercises[exerciseIndex].sets.insert(index, response.data!);
+        });
+      } else {
+        showErrorSnackbar("Failed to add Warmup");
+      }
+    });
+  }
+
+  void finishWorkout() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Finish workout"),
+        content: const Text("Are you sure you want to finish your workout?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              WorkoutAPI.finish(AuthService.token!).then((response) {
+                Navigator.of(context).pop();
+                if (response.status == ResponseStatus.success) {
+                  refresh();
+                } else {
+                  showErrorSnackbar("Failed to finish workout");
+                }
+              });
+            },
+            child: const Text("Yes"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("No"),
+          ),
+        ],
       ),
     );
   }

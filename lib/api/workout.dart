@@ -10,6 +10,7 @@ class DetailedExercise {
   String id;
   String name;
   ExerciseType exerciseType;
+  String exerciseWorkoutId;
   DateTime createdAt;
   DateTime updatedAt;
   List<WorkoutSet> sets;
@@ -18,6 +19,7 @@ class DetailedExercise {
     required this.id,
     required this.name,
     required this.exerciseType,
+    required this.exerciseWorkoutId,
     required this.createdAt,
     required this.updatedAt,
     required this.sets,
@@ -50,6 +52,7 @@ class DetailedExercise {
       id: data["id"],
       name: data["name"],
       exerciseType: exerciseType,
+      exerciseWorkoutId: data["exercise_workout_id"],
       createdAt: DateTime.parse(data["created_at"]),
       updatedAt: DateTime.parse(data["updated_at"]),
       sets: sets,
@@ -143,6 +146,15 @@ class WorkoutAPI {
 
   static Future<Response<Workout>> startWorkout(String token) async {
     var json = await API.postWithAuth("/workouts", token, {});
+
+    return Response<Workout>.fromJsonMap(
+      json,
+      Workout.fromJson,
+    );
+  }
+
+  static Future<Response<Workout>> finish(String token) async {
+    var json = await API.putWithAuth("/workouts/current", token, {});
 
     return Response<Workout>.fromJsonMap(
       json,
