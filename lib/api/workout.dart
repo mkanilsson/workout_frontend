@@ -98,6 +98,35 @@ class Workout {
   }
 }
 
+class ExerciseWorkout {
+  String id;
+  String userId;
+  String exerciseId;
+  String workoutId;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  ExerciseWorkout({
+    required this.id,
+    required this.userId,
+    required this.exerciseId,
+    required this.workoutId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory ExerciseWorkout.fromJson(Map<String, dynamic> data) {
+    return ExerciseWorkout(
+      id: data["id"],
+      userId: data["user_id"],
+      exerciseId: data["exercise_id"],
+      workoutId: data["workout_id"],
+      createdAt: DateTime.parse(data["created_at"]),
+      updatedAt: DateTime.parse(data["updated_at"]),
+    );
+  }
+}
+
 class DetailedWorkout {
   String id;
   WorkoutStatus status;
@@ -159,6 +188,18 @@ class WorkoutAPI {
     return Response<Workout>.fromJsonMap(
       json,
       Workout.fromJson,
+    );
+  }
+
+  static Future<Response<ExerciseWorkout>> addExercise(
+      String token, ExerciseResponse exercise) async {
+    var json = await API.postWithAuth("/workouts/current/exercises", token, {
+      "exercise_id": exercise.id,
+    });
+
+    return Response<ExerciseWorkout>.fromJsonMap(
+      json,
+      ExerciseWorkout.fromJson,
     );
   }
 }

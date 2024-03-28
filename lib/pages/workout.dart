@@ -67,7 +67,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
       floatingActionButton: _success && !_notFound && !_loading
           ? FloatingActionButton(
               onPressed: () {
-                // Navigator.of(context).pushNamed("/add_exercise");
+                Navigator.of(context).pushNamed("/workout_add_exercise").then(
+                  (value) {
+                    if (value is ExerciseResponse) {
+                      addExercise(value);
+                    }
+                  },
+                );
               },
               tooltip: 'Add exercise to workout',
               child: const Icon(Icons.add),
@@ -78,7 +84,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   Widget loading() {
     return const Center(
-      child: Text("Loading..."),
+      child: CircularProgressIndicator(),
     );
   }
 
@@ -462,5 +468,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
         ],
       ),
     );
+  }
+
+  void addExercise(ExerciseResponse exercise) {
+    WorkoutAPI.addExercise(AuthService.token!, exercise).then((response) {
+      if (response.status == ResponseStatus.success) {
+        refresh();
+      } else {
+        showErrorSnackbar(
+            "Failed to add '${exercise.name}' to current workout");
+      }
+    });
   }
 }

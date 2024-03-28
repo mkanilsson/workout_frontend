@@ -3,14 +3,14 @@ import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
 
-class ExercisesPage extends StatefulWidget {
-  const ExercisesPage({super.key});
+class WorkoutAddExercisePage extends StatefulWidget {
+  const WorkoutAddExercisePage({super.key});
 
   @override
-  State<ExercisesPage> createState() => _ExercisesPageState();
+  State<WorkoutAddExercisePage> createState() => _WorkoutAddExercisePageState();
 }
 
-class _ExercisesPageState extends State<ExercisesPage> {
+class _WorkoutAddExercisePageState extends State<WorkoutAddExercisePage> {
   var _loading = true;
   var _success = true;
   List<ExerciseResponse> _exercises = [];
@@ -51,12 +51,18 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
     return Scaffold(
       body: widgetToShow,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed("/add_exercise");
-        },
-        tooltip: 'Add new Exercise',
-        child: const Icon(Icons.add),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        title: const Text("Select Exercise"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed("/user");
+            },
+            icon: const Icon(Icons.account_circle),
+          ),
+        ],
       ),
     );
   }
@@ -82,6 +88,9 @@ class _ExercisesPageState extends State<ExercisesPage> {
               _exercises[index].name,
             ),
             subtitle: Text(_exercises[index].exerciseType.description),
+            onTap: () {
+              Navigator.of(context).pop(_exercises[index]);
+            },
           );
         },
         separatorBuilder: (BuildContext context, int index) {
