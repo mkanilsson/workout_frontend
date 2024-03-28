@@ -55,8 +55,7 @@ class AuthAPI {
     return Response<LoginResponse>.fromJsonMap(json, LoginResponse.fromJson);
   }
 
-  static Future<Response<void>> logout(
-      String token, String email, String password) async {
+  static Future<Response<void>> logout(String token) async {
     var json = await API.deleteWithAuth("/auth/logout", token);
     return Response<void>.fromJsonMap(json, (data) => {});
   }

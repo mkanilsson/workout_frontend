@@ -21,6 +21,8 @@ class AuthService {
   }
 
   static Future<bool> logout() async {
+    await AuthAPI.logout(token!);
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.remove("token");

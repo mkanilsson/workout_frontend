@@ -19,6 +19,14 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: const Text("Workout"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed("/user");
+              },
+              icon: const Icon(Icons.account_circle),
+            ),
+          ],
         ),
         bottomNavigationBar: const TabBar(
           tabs: [

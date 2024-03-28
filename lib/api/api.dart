@@ -20,7 +20,8 @@ class Response<T> {
 
     final message = data["message"];
     T? responseData;
-    if (status == ResponseStatus.success) {
+    // FIXME: Ugly hack
+    if (status == ResponseStatus.success && message != "logged out") {
       responseData = dataParser(data["data"]);
     }
 
@@ -91,6 +92,7 @@ class API {
       Uri.parse("$baseURL/api$endpoint"),
       headers: {"Authorization": token},
     );
-    return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+    var decoded = utf8.decode(response.bodyBytes);
+    return jsonDecode(decoded) as Map<String, dynamic>;
   }
 }
