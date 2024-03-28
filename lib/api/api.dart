@@ -61,7 +61,19 @@ class API {
       body: jsonEncode(body),
       headers: {"Content-Type": "application/json", "Authorization": token},
     );
-    return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+    var decoded = utf8.decode(response.bodyBytes);
+    return jsonDecode(decoded) as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> putWithAuth(
+      String endpoint, String token, dynamic body) async {
+    var response = await http.put(
+      Uri.parse("$baseURL/api$endpoint"),
+      body: jsonEncode(body),
+      headers: {"Content-Type": "application/json", "Authorization": token},
+    );
+    var decoded = utf8.decode(response.bodyBytes);
+    return jsonDecode(decoded) as Map<String, dynamic>;
   }
 
   static Future<Map<String, dynamic>> getWithAuth(

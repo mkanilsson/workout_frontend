@@ -12,7 +12,7 @@ const COLOR_BACKGROUND_DARKER = Color.fromARGB(255, 29, 32, 33);
 ThemeData theme = ThemeData(
   brightness: Brightness.dark,
   primaryColor: COLOR_PRIMARY,
-  colorScheme: ColorScheme(
+  colorScheme: const ColorScheme(
     brightness: Brightness.dark,
     background: COLOR_BACKGROUND,
     onBackground: COLOR_FORGROUND,
@@ -22,7 +22,7 @@ ThemeData theme = ThemeData(
     onSecondary: COLOR_FORGROUND,
     error: COLOR_ERROR,
     onError: COLOR_FORGROUND,
-    surface: COLOR_ORANGE,
+    surface: COLOR_BACKGROUND_DARKER,
     onSurface: COLOR_FORGROUND,
   ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -46,5 +46,13 @@ ThemeData theme = ThemeData(
   listTileTheme: const ListTileThemeData(
     tileColor: COLOR_BACKGROUND_DARKER,
     subtitleTextStyle: TextStyle(color: COLOR_FORGROUND_ALT),
+  ),
+  cardTheme: const CardTheme(
+    margin: EdgeInsets.all(0),
+    color: COLOR_BACKGROUND_DARKER,
+    clipBehavior: Clip.none,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.zero,
+    ),
   ),
 );

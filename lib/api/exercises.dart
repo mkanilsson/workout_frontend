@@ -31,6 +31,34 @@ extension ExerciseTypeExtension on ExerciseType {
 
     return "WTF";
   }
+
+  String get quantityUnit {
+    switch (this) {
+      case ExerciseType.staticExercise:
+        return "kg";
+      case ExerciseType.distanceOverTime:
+        return "km";
+      case ExerciseType.weightOverAmount:
+        return "kg";
+      default:
+    }
+
+    return "WTF";
+  }
+
+  String get qualityUnit {
+    switch (this) {
+      case ExerciseType.staticExercise:
+        return "seconds";
+      case ExerciseType.distanceOverTime:
+        return "seconds";
+      case ExerciseType.weightOverAmount:
+        return "reps";
+      default:
+    }
+
+    return "WTF";
+  }
 }
 
 class ExerciseResponse {

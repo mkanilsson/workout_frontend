@@ -2,51 +2,9 @@ import 'dart:core';
 
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
+import 'package:workout_frontend/api/set.dart';
 
 enum WorkoutStatus { ongoing, done }
-
-enum SetType { warmup, normal }
-
-class WorkoutSet {
-  String id;
-  String userId;
-  String exerciseWorkoutId;
-  double quality;
-  double quantity;
-  String? note;
-  SetType setType;
-  DateTime createdAt;
-  DateTime updatedAt;
-
-  WorkoutSet({
-    required this.id,
-    required this.userId,
-    required this.exerciseWorkoutId,
-    required this.quality,
-    required this.quantity,
-    required this.note,
-    required this.setType,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  factory WorkoutSet.fromJson(Map<String, dynamic> data) {
-    var setType =
-        data["set_type"] == "warmup" ? SetType.warmup : SetType.normal;
-
-    return WorkoutSet(
-      id: data["id"],
-      userId: data["user_id"],
-      exerciseWorkoutId: data["exercise_workout_id"],
-      quality: data["quality"],
-      quantity: data["quantity"],
-      note: data["note"],
-      setType: setType,
-      createdAt: DateTime.parse(data["created_at"]),
-      updatedAt: DateTime.parse(data["updated_at"]),
-    );
-  }
-}
 
 class DetailedExercise {
   String id;
