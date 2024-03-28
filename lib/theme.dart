@@ -30,12 +30,12 @@ ThemeData theme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(COLOR_FORGROUND),
-      backgroundColor: MaterialStateProperty.all(COLOR_PRIMARY),
-      padding: MaterialStateProperty.all(
+      foregroundColor: WidgetStateProperty.all(COLOR_FORGROUND),
+      backgroundColor: WidgetStateProperty.all(COLOR_PRIMARY),
+      padding: WidgetStateProperty.all(
         const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       ),
-      textStyle: MaterialStateProperty.all(
+      textStyle: WidgetStateProperty.all(
         const TextStyle(
           fontSize: 16,
         ),
@@ -60,7 +60,7 @@ ThemeData theme = ThemeData(
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(COLOR_FORGROUND),
+      foregroundColor: WidgetStateProperty.all(COLOR_FORGROUND),
     ),
   ),
 );

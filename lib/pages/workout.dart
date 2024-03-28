@@ -176,13 +176,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       icon: const Icon(Icons.add),
                       label: const Text("Add warmup"),
                       style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
+                        textStyle: WidgetStateProperty.all(
                           Theme.of(context).textTheme.labelMedium,
                         ),
-                        backgroundColor: MaterialStateProperty.all(
+                        backgroundColor: WidgetStateProperty.all(
                           Colors.transparent,
                         ),
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           const EdgeInsets.fromLTRB(0, 0, 15, 0),
                         ),
                       ),
@@ -201,13 +201,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       icon: const Icon(Icons.add),
                       label: const Text("Add set"),
                       style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
+                        textStyle: WidgetStateProperty.all(
                           Theme.of(context).textTheme.labelMedium,
                         ),
-                        backgroundColor: MaterialStateProperty.all(
+                        backgroundColor: WidgetStateProperty.all(
                           Colors.transparent,
                         ),
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           const EdgeInsets.fromLTRB(0, 0, 15, 0),
                         ),
                       ),
