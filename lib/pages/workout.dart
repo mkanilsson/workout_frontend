@@ -166,10 +166,22 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       ),
                       const Spacer(),
                       IconButton(
-                        icon: const Icon(Icons.more_vert),
-                        onPressed: () {
-                          print("Hello");
-                        },
+                        onPressed: () {},
+                        icon: const Icon(Icons.history),
+                      ),
+                      PopupMenuButton(
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: const Text(
+                              "Delete",
+                            ),
+                            onTap: () {
+                              removeExercise(
+                                index,
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -477,6 +489,24 @@ class _WorkoutPageState extends State<WorkoutPage> {
       } else {
         showErrorSnackbar(
             "Failed to add '${exercise.name}' to current workout");
+      }
+    });
+  }
+
+  void removeExercise(int exerciseIndex) {
+    var exercise = _workout!.exercises[exerciseIndex];
+
+    WorkoutAPI.removeExercise(
+      AuthService.token!,
+      exercise.exerciseWorkoutId,
+    ).then((response) {
+      if (response.status == ResponseStatus.success) {
+        setState(() {
+          _workout!.exercises.removeAt(exerciseIndex);
+        });
+      } else {
+        showErrorSnackbar(
+            "Failed to remove '${exercise.name}' from current workout");
       }
     });
   }

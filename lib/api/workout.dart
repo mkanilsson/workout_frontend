@@ -202,4 +202,17 @@ class WorkoutAPI {
       ExerciseWorkout.fromJson,
     );
   }
+
+  static Future<Response<ExerciseWorkout>> removeExercise(
+      String token, String exerciseWorkoutId) async {
+    var json = await API.deleteWithAuth(
+      "/workouts/current/exercises/$exerciseWorkoutId",
+      token,
+    );
+
+    return Response<ExerciseWorkout>.fromJsonMap(
+      json,
+      ExerciseWorkout.fromJson,
+    );
+  }
 }
