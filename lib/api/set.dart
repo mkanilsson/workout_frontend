@@ -54,6 +54,26 @@ class WorkoutSet {
       updatedAt: DateTime.parse(data["updated_at"]),
     );
   }
+
+  int get hours {
+    return (quantity / 3600).floor();
+  }
+
+  int get minutes {
+    return ((quantity - (hours * 3600)) / 60).floor();
+  }
+
+  double get seconds {
+    return quantity - (hours * 3600) - (minutes * 60);
+  }
+}
+
+extension DoubleExtension on double {
+  String beautifulToString() {
+    var value = toString();
+    if (value.endsWith(".0")) return value.replaceAll(".0", "");
+    return value;
+  }
 }
 
 class SetAPI {

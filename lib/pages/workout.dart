@@ -14,6 +14,9 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
+  static const spacing = 15.0;
+  static const textFieldWidth = 40.0;
+
   var _loading = true;
   var _success = true;
   DetailedWorkout? _workout;
@@ -265,10 +268,12 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   Widget setRow(int exerciseIndex, int setIndex, WorkoutSet set) {
     var exerciseType = _workout!.exercises[exerciseIndex].exerciseType;
-    var _quantityController =
-        TextEditingController(text: set.quantity.toString());
     var _qualityController =
-        TextEditingController(text: set.quality.toString());
+        TextEditingController(text: set.quality.beautifulToString());
+
+    var quantityWidgets = exerciseType == ExerciseType.weightOverAmount
+        ? reps(set, exerciseIndex, setIndex)
+        : time(set, exerciseIndex, setIndex);
 
     return Row(
       children: [
@@ -278,10 +283,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
               : Icons.fitness_center_sharp,
         ),
         const SizedBox(
-          width: 35,
+          width: spacing,
         ),
         SizedBox(
-          width: 55,
+          width: textFieldWidth,
           child: Focus(
             child: TextField(
               textAlign: TextAlign.right,
@@ -309,37 +314,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
           style: Theme.of(context).listTileTheme.subtitleTextStyle,
         ),
         const SizedBox(
-          width: 35,
+          width: spacing,
         ),
-        SizedBox(
-          width: 55,
-          child: Focus(
-            child: TextField(
-              textAlign: TextAlign.right,
-              controller: _quantityController,
-              keyboardType: TextInputType.number,
-            ),
-            onFocusChange: (hasFocus) {
-              if (hasFocus) return;
-              try {
-                var value = double.parse(_quantityController.text);
-                if (value != set.quantity) {
-                  updateSet(exerciseIndex, setIndex, set.quality, value);
-                }
-              } catch (e) {
-                showErrorSnackbar("Must be a number");
-                _quantityController.text = set.quantity.toString();
-              }
-            },
-          ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Text(
-          exerciseType.qualityUnit,
-          style: Theme.of(context).listTileTheme.subtitleTextStyle,
-        ),
+        // HERE,
+        ...quantityWidgets,
+        // HERE,
         const Spacer(),
         PopupMenuButton(
           itemBuilder: (context) => [
@@ -355,6 +334,122 @@ class _WorkoutPageState extends State<WorkoutPage> {
         ),
       ],
     );
+  }
+
+  List<Widget> reps(WorkoutSet set, int exerciseIndex, int setIndex) {
+    var _quantityController =
+        TextEditingController(text: set.quantity.beautifulToString());
+
+    return [
+      SizedBox(
+        width: textFieldWidth,
+        child: Focus(
+          child: TextField(
+            textAlign: TextAlign.right,
+            controller: _quantityController,
+            keyboardType: TextInputType.number,
+          ),
+          onFocusChange: (hasFocus) {
+            if (hasFocus) return;
+            try {
+              var value = double.parse(_quantityController.text);
+              if (value != set.quantity) {
+                updateSet(exerciseIndex, setIndex, set.quality, value);
+              }
+            } catch (e) {
+              showErrorSnackbar("Must be a number");
+              _quantityController.text = set.quantity.beautifulToString();
+            }
+          },
+        ),
+      ),
+      const SizedBox(
+        width: 5,
+      ),
+      Text(
+        "reps",
+        style: Theme.of(context).listTileTheme.subtitleTextStyle,
+      ),
+    ];
+  }
+
+  List<Widget> time(WorkoutSet set, int exerciseIndex, int setIndex) {
+    var _hourController = TextEditingController(text: set.hours.toString());
+    var _minuteController = TextEditingController(text: set.minutes.toString());
+    var _secondController =
+        TextEditingController(text: set.seconds.beautifulToString());
+
+    final onFocusChange = (hasFocus) {
+      if (hasFocus) return;
+      try {
+        var hours = double.parse(_hourController.text);
+        var minutes = double.parse(_minuteController.text);
+        var seconds = double.parse(_secondController.text);
+
+        var value = hours * 3600 + minutes * 60 + seconds;
+        if (value != set.quantity) {
+          updateSet(exerciseIndex, setIndex, set.quality, value);
+        }
+      } catch (e) {
+        showErrorSnackbar("Must be a number");
+        _hourController.text = set.hours.toString();
+        _minuteController.text = set.minutes.toString();
+        _secondController.text = set.seconds.beautifulToString();
+      }
+    };
+
+    return [
+      // Hour
+      SizedBox(
+        width: textFieldWidth,
+        child: Focus(
+          child: TextField(
+            textAlign: TextAlign.right,
+            controller: _hourController,
+            keyboardType: TextInputType.number,
+          ),
+          onFocusChange: onFocusChange,
+        ),
+      ),
+      Text(
+        "h",
+        style: Theme.of(context).listTileTheme.subtitleTextStyle,
+      ),
+      const SizedBox(width: 5),
+      // Minute
+      SizedBox(
+        width: textFieldWidth,
+        child: Focus(
+          child: TextField(
+            textAlign: TextAlign.right,
+            controller: _minuteController,
+            keyboardType: TextInputType.number,
+          ),
+          onFocusChange: onFocusChange,
+        ),
+      ),
+      Text(
+        "m",
+        style: Theme.of(context).listTileTheme.subtitleTextStyle,
+      ),
+      const SizedBox(width: 5),
+      // Second
+      SizedBox(
+        width: textFieldWidth,
+        child: Focus(
+          child: TextField(
+            textAlign: TextAlign.right,
+            controller: _secondController,
+            keyboardType: TextInputType.number,
+          ),
+          onFocusChange: onFocusChange,
+        ),
+      ),
+      Text(
+        "s",
+        style: Theme.of(context).listTileTheme.subtitleTextStyle,
+      ),
+    ];
   }
 
   void deleteSet(int exerciseIndex, WorkoutSet set) {
