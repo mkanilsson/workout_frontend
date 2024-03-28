@@ -7,6 +7,8 @@ import 'package:workout_frontend/pages/user.dart';
 import 'package:workout_frontend/theme.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   Widget defaultPage = const LoginPage();
   var loggedIn = await AuthService.loadAndRefresh();
 
