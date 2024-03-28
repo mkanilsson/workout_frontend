@@ -55,4 +55,12 @@ ThemeData theme = ThemeData(
       borderRadius: BorderRadius.zero,
     ),
   ),
+  iconTheme: const IconThemeData(
+    color: COLOR_FORGROUND,
+  ),
+  iconButtonTheme: IconButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: MaterialStateProperty.all(COLOR_FORGROUND),
+    ),
+  ),
 );
