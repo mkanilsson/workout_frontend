@@ -24,7 +24,7 @@ class _AddExercisePage extends State<AddExercisePage> {
       if (response.status == ResponseStatus.failure) {
         showFailedToAddDialog();
       } else {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(response.data);
       }
     });
   }
@@ -108,7 +108,7 @@ class _AddExercisePage extends State<AddExercisePage> {
               ),
               const SizedBox(height: 35),
               TextButton(
-                onPressed: nameController.text.length > 4 ? add : null,
+                onPressed: nameController.text.isNotEmpty ? add : null,
                 child: const Text(
                   "Add",
                 ),

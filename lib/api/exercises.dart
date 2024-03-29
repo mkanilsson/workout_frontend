@@ -211,4 +211,17 @@ class ExerciseAPI {
       return items;
     });
   }
+
+  static Future<Response<ExerciseResponse>> delete(
+    String token,
+    String id,
+  ) async {
+    var json = await API.deleteWithAuth(
+      "/exercises/$id",
+      token,
+    );
+
+    return Response<ExerciseResponse>.fromJsonMap(
+        json, ExerciseResponse.fromJson);
+  }
 }

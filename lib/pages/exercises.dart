@@ -3,6 +3,7 @@ import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
 import 'package:workout_frontend/pages/exercise_history.dart';
+import 'package:workout_frontend/theme.dart';
 
 class ExercisesPage extends StatefulWidget {
   const ExercisesPage({super.key});
@@ -54,7 +55,13 @@ class _ExercisesPageState extends State<ExercisesPage> {
       body: widgetToShow,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed("/add_exercise");
+          Navigator.of(context).pushNamed("/add_exercise").then((result) {
+            if (result is ExerciseResponse) {
+              setState(() {
+                _exercises.add(result);
+              });
+            }
+          });
         },
         tooltip: 'Add new Exercise',
         child: const Icon(Icons.add),
@@ -93,6 +100,40 @@ class _ExercisesPageState extends State<ExercisesPage> {
               );
             },
             subtitle: Text(_exercises[index].exerciseType.description),
+            trailing: PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: const Text(
+                    "Delete",
+                  ),
+                  onTap: () {
+                    ExerciseAPI.delete(
+                      AuthService.token!,
+                      _exercises[index].id,
+                    ).then((response) {
+                      if (response.status == ResponseStatus.success) {
+                        setState(() {
+                          _exercises = _exercises
+                              .where(
+                                (element) => element.id != response.data!.id,
+                              )
+                              .toList();
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Failed to remove '${_exercises[index].name}'",
+                            ),
+                            backgroundColor: COLOR_ERROR,
+                          ),
+                        );
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
           );
         },
         separatorBuilder: (BuildContext context, int index) {
