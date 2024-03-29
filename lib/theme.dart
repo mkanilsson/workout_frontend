@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const COLOR_PRIMARY = Color.fromARGB(255, 72, 133, 136);
 const COLOR_SECONDARY = Color.fromARGB(255, 177, 98, 134);
 const COLOR_ERROR = Color.fromARGB(255, 204, 36, 29);
+const COLOR_SUCCESS = Color.fromARGB(255, 152, 151, 26);
 const COLOR_ORANGE = Color.fromARGB(255, 214, 93, 14);
 const COLOR_FORGROUND = Color.fromARGB(255, 235, 219, 178);
 const COLOR_FORGROUND_ALT = Color.fromARGB(255, 168, 153, 132);

@@ -1,28 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/api/api.dart';
+import 'package:workout_frontend/api/auth.dart';
 import 'package:workout_frontend/theme.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _LoginPage();
+  State<StatefulWidget> createState() => _RegisterPage();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _RegisterPage extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void login() {
-    AuthService.login(emailController.text, passwordController.text)
-        .then((success) {
-      if (success) {
-        Navigator.of(context).pushReplacementNamed("/home");
-      } else {
+  void register() {
+    if (passwordController.text.length <= 5 ||
+        emailController.text.length <= 5) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text("Both email and password must be longer than 5 characters"),
+          backgroundColor: COLOR_ERROR,
+        ),
+      );
+
+      return;
+    }
+
+    AuthAPI.register(
+      emailController.text,
+      passwordController.text,
+    ).then((response) {
+      if (response.status == ResponseStatus.success) {
+        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Login failed. Check your email and password"),
+            content: Text("Your account has been created, you can now log in"),
+            backgroundColor: COLOR_SUCCESS,
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.message),
             backgroundColor: COLOR_ERROR,
           ),
         );
@@ -47,7 +68,7 @@ class _LoginPage extends State<LoginPage> {
               Container(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
                 child: const Text(
-                  "Login",
+                  "Register",
                   style: TextStyle(
                     fontSize: 24,
                   ),
@@ -86,33 +107,26 @@ class _LoginPage extends State<LoginPage> {
               ),
               const SizedBox(height: 35),
               TextButton(
-                onPressed: login,
+                onPressed: register,
                 child: const Text(
-                  "Login",
+                  "Register",
                 ),
-              ),
-              const SizedBox(height: 15),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/register");
-                },
-                style: ButtonStyle(
-                  textStyle: WidgetStateProperty.all(
-                    Theme.of(context).textTheme.labelMedium,
-                  ),
-                  backgroundColor: WidgetStateProperty.all(
-                    Colors.transparent,
-                  ),
-                ),
-                child: const Text(
-                  "Don't have an account?\nRegister here",
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void showLoginFailedDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          content: Text("Login failed"),
+        );
+      },
     );
   }
 }
