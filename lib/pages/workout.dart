@@ -99,26 +99,28 @@ class _WorkoutPageState extends State<WorkoutPage> {
   Widget noWorkout() {
     return Container(
       padding: const EdgeInsets.all(25),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-            child: const Text(
-              "You're not currently not working out!",
-              style: TextStyle(
-                fontSize: 24,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+              child: const Text(
+                "You're not currently not working out!",
+                style: TextStyle(
+                  fontSize: 24,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          TextButton(
-            onPressed: startWorkout,
-            child: const Text(
-              "Start working out",
-            ),
-          )
-        ],
+            TextButton(
+              onPressed: startWorkout,
+              child: const Text(
+                "Start working out",
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
