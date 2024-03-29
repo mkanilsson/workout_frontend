@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_frontend/api/api.dart';
+import 'package:workout_frontend/api/set.dart';
 import 'package:workout_frontend/auth_service.dart';
 import 'package:workout_frontend/theme.dart';
 
@@ -14,7 +15,6 @@ class _UserPage extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     final date = AuthService.user!.createdAt.toLocal();
-    var userSince = "${date.day}/${date.month}/${date.year}";
 
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +73,7 @@ class _UserPage extends State<UserPage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  userSince,
+                  date.beautifulToString(),
                   style: const TextStyle(
                     fontSize: 16,
                     height: 0.5,

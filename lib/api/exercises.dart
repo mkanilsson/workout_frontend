@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:workout_frontend/api/api.dart';
+import 'package:workout_frontend/api/set.dart';
 
 enum ExerciseType { staticExercise, distanceOverTime, weightOverAmount }
 
@@ -99,6 +100,73 @@ class ExerciseResponse {
   }
 }
 
+class ExerciseGroupHistory {
+  DateTime startDate;
+  List<WorkoutSet> sets;
+
+  ExerciseGroupHistory({
+    required this.startDate,
+    required this.sets,
+  });
+
+  factory ExerciseGroupHistory.fromJson(Map<String, dynamic> data) {
+    List<WorkoutSet> sets = [];
+
+    for (var s in data["sets"]) {
+      sets.add(WorkoutSet.fromJson(s));
+    }
+
+    return ExerciseGroupHistory(
+      startDate: DateTime.parse(data["start_date"]),
+      sets: sets,
+    );
+  }
+}
+
+class ExerciseHistory {
+  String workoutId;
+  ExerciseType exerciseType;
+  DateTime workoutDate;
+  List<ExerciseGroupHistory> groups;
+
+  ExerciseHistory({
+    required this.workoutId,
+    required this.exerciseType,
+    required this.workoutDate,
+    required this.groups,
+  });
+
+  factory ExerciseHistory.fromJson(Map<String, dynamic> data) {
+    List<ExerciseGroupHistory> groups = [];
+
+    for (var g in data["groups"]) {
+      groups.add(ExerciseGroupHistory.fromJson(g));
+    }
+
+    var exerciseType = ExerciseType.staticExercise;
+
+    switch (data["exercise_type"]) {
+      case "static":
+        exerciseType = ExerciseType.staticExercise;
+        break;
+      case "WeightOverAmount":
+        exerciseType = ExerciseType.weightOverAmount;
+        break;
+      case "DistanceOverTime":
+        exerciseType = ExerciseType.distanceOverTime;
+        break;
+      default:
+    }
+
+    return ExerciseHistory(
+      workoutId: data["workout_id"],
+      exerciseType: exerciseType,
+      workoutDate: DateTime.parse(data["workout_date"]),
+      groups: groups,
+    );
+  }
+}
+
 class ExerciseAPI {
   static Future<Response<List<ExerciseResponse>>> getAllExercises(
       String token) async {
@@ -125,5 +193,22 @@ class ExerciseAPI {
 
     return Response<ExerciseResponse>.fromJsonMap(
         json, ExerciseResponse.fromJson);
+  }
+
+  static Future<Response<List<ExerciseHistory>>> getHistory(
+    String token,
+    String exerciseId,
+  ) async {
+    var json = await API.getWithAuth("/exercises/$exerciseId/history", token);
+
+    return Response<List<ExerciseHistory>>.fromJsonList(json, (elements) {
+      List<ExerciseHistory> items = [];
+
+      for (var element in elements) {
+        items.add(ExerciseHistory.fromJson(element));
+      }
+
+      return items;
+    });
   }
 }

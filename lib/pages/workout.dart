@@ -4,6 +4,7 @@ import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/api/set.dart';
 import 'package:workout_frontend/api/workout.dart';
 import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/pages/exercise_history.dart';
 import 'package:workout_frontend/theme.dart';
 
 class WorkoutPage extends StatefulWidget {
@@ -169,7 +170,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       ),
                       const Spacer(),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (builder) => ExerciseHistoryPage(
+                                exerciseId: _workout!.exercises[index].id,
+                                exerciseName: _workout!.exercises[index].name,
+                              ),
+                            ),
+                          );
+                        },
                         icon: const Icon(Icons.history),
                       ),
                       PopupMenuButton(

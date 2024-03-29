@@ -76,6 +76,12 @@ extension DoubleExtension on double {
   }
 }
 
+extension DateTimeExtension on DateTime {
+  String beautifulToString() {
+    return "$day/$month/$year";
+  }
+}
+
 class SetAPI {
   static Future<Response<WorkoutSet>> delete(String token, String id) async {
     var json = await API.deleteWithAuth("/sets/$id", token);
