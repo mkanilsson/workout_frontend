@@ -129,6 +129,26 @@ class _WorkoutPageState extends State<WorkoutPage> {
       child: ListView.separated(
         itemCount: _workout!.exercises.length + 1,
         itemBuilder: (BuildContext context, int index) {
+          if (_workout!.exercises.isEmpty) {
+            return Row(
+              children: [
+                const SizedBox(
+                  height: 75,
+                ),
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: const Text(
+                        textAlign: TextAlign.center,
+                        "Add an exercise to your workout by pressing the + in the bottom right corner",
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
           if (index == _workout!.exercises.length) {
             return Row(
               children: [
