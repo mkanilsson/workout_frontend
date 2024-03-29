@@ -291,6 +291,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
             child: TextField(
               textAlign: TextAlign.right,
               controller: _qualityController,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+              ),
             ),
             onFocusChange: (hasFocus) {
               if (hasFocus) return;
@@ -348,6 +351,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
             textAlign: TextAlign.right,
             controller: _quantityController,
             keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+            ),
           ),
           onFocusChange: (hasFocus) {
             if (hasFocus) return;
@@ -407,6 +413,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
             textAlign: TextAlign.right,
             controller: _hourController,
             keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+            ),
           ),
           onFocusChange: onFocusChange,
         ),
@@ -424,6 +433,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
             textAlign: TextAlign.right,
             controller: _minuteController,
             keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+            ),
           ),
           onFocusChange: onFocusChange,
         ),
@@ -441,6 +453,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
             textAlign: TextAlign.right,
             controller: _secondController,
             keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+            ),
           ),
           onFocusChange: onFocusChange,
         ),
