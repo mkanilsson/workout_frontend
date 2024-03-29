@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/pages/exercise_history.dart';
 
 class ExercisesPage extends StatefulWidget {
   const ExercisesPage({super.key});
@@ -81,6 +82,16 @@ class _ExercisesPageState extends State<ExercisesPage> {
             title: Text(
               _exercises[index].name,
             ),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (builder) => ExerciseHistoryPage(
+                    exerciseId: _exercises[index].id,
+                    exerciseName: _exercises[index].name,
+                  ),
+                ),
+              );
+            },
             subtitle: Text(_exercises[index].exerciseType.description),
           );
         },
