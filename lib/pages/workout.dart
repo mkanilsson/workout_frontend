@@ -186,11 +186,17 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        _workout!.exercises[index].name,
-                        style: Theme.of(context).listTileTheme.titleTextStyle,
+                      Flexible(
+                        fit: FlexFit.tight,
+                        flex: 20,
+                        child: Text(
+                          _workout!.exercises[index].name,
+                          style: Theme.of(context).listTileTheme.titleTextStyle,
+                        ),
                       ),
-                      const Spacer(),
+                      const Spacer(
+                        flex: 1,
+                      ),
                       IconButton(
                         onPressed: () {
                           Navigator.of(context).push(
