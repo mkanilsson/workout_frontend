@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/routes.dart' as routes;
 
 class WorkoutAddExercisePage extends StatefulWidget {
   const WorkoutAddExercisePage({super.key});
@@ -58,7 +59,7 @@ class _WorkoutAddExercisePageState extends State<WorkoutAddExercisePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed("/user");
+              Navigator.of(context).push(routes.user());
             },
             icon: const Icon(Icons.account_circle),
           ),

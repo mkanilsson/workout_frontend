@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_frontend/pages/exercises.dart';
 import 'package:workout_frontend/pages/workout.dart';
+import 'package:workout_frontend/routes.dart' as routes;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed("/user");
+                Navigator.of(context).push(routes.user());
               },
               icon: const Icon(Icons.account_circle),
             ),

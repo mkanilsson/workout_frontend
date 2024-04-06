@@ -5,6 +5,7 @@ import 'package:workout_frontend/api/set.dart';
 import 'package:workout_frontend/api/workout.dart';
 import 'package:workout_frontend/auth_service.dart';
 import 'package:workout_frontend/pages/exercise_history.dart';
+import 'package:workout_frontend/routes.dart' as routes;
 import 'package:workout_frontend/theme.dart';
 
 class WorkoutPage extends StatefulWidget {
@@ -71,7 +72,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       floatingActionButton: _success && !_notFound && !_loading
           ? FloatingActionButton(
               onPressed: () {
-                Navigator.of(context).pushNamed("/workout_add_exercise").then(
+                Navigator.of(context).push(routes.workoutAddExercise()).then(
                   (value) {
                     if (value is ExerciseResponse) {
                       addExercise(value);

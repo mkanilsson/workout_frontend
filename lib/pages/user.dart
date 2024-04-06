@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/set.dart';
 import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/routes.dart' as routes;
 import 'package:workout_frontend/theme.dart';
 
 class UserPage extends StatefulWidget {
@@ -86,7 +86,7 @@ class _UserPage extends State<UserPage> {
                 onPressed: () {
                   AuthService.logout().then((success) {
                     if (success) {
-                      Navigator.of(context).pushReplacementNamed("/login");
+                      Navigator.of(context).pushReplacement(routes.login());
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

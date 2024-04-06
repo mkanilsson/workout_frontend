@@ -3,7 +3,7 @@ import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
 import 'package:workout_frontend/pages/exercise_history.dart';
-import 'package:workout_frontend/routes.dart';
+import 'package:workout_frontend/routes.dart' as routes;
 import 'package:workout_frontend/theme.dart';
 
 class ExercisesPage extends StatefulWidget {
@@ -56,7 +56,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
       body: widgetToShow,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed("/add_exercise").then((result) {
+          Navigator.of(context).push(routes.addExercise()).then((result) {
             if (result is ExerciseResponse) {
               setState(() {
                 _exercises.add(result);
@@ -109,7 +109,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                   ),
                   onTap: () {
                     Navigator.of(context)
-                        .push(editExercise(_exercises[index]))
+                        .push(routes.editExercise(_exercises[index]))
                         .then((editedExercise) {
                       setState(
                         () {

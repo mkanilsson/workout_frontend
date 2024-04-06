@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_frontend/auth_service.dart';
-import 'package:workout_frontend/pages/add_exercise.dart';
 import 'package:workout_frontend/pages/home.dart';
 import 'package:workout_frontend/pages/login.dart';
-import 'package:workout_frontend/pages/register.dart';
-import 'package:workout_frontend/pages/user.dart';
-import 'package:workout_frontend/pages/workout_add_exercise.dart';
 import 'package:workout_frontend/theme.dart';
 
 void main() async {
@@ -24,15 +20,6 @@ void main() async {
       home: defaultPage,
       theme: theme,
       darkTheme: theme,
-      routes: <String, WidgetBuilder>{
-        "/home": (BuildContext context) => const HomePage(),
-        "/login": (BuildContext context) => const LoginPage(),
-        "/register": (BuildContext context) => const RegisterPage(),
-        "/user": (BuildContext context) => const UserPage(),
-        "/add_exercise": (BuildContext context) => const AddExercisePage(),
-        "/workout_add_exercise": (BuildContext context) =>
-            const WorkoutAddExercisePage(),
-      },
     ),
   );
 }

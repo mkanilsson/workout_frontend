@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:workout_frontend/auth_service.dart';
+import 'package:workout_frontend/routes.dart' as routes;
 import 'package:workout_frontend/theme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _LoginPage extends State<LoginPage> {
     AuthService.login(emailController.text, passwordController.text)
         .then((success) {
       if (success) {
-        Navigator.of(context).pushReplacementNamed("/home");
+        Navigator.of(context).pushReplacement(routes.home());
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -94,7 +95,7 @@ class _LoginPage extends State<LoginPage> {
               const SizedBox(height: 15),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/register");
+                  Navigator.of(context).push(routes.register());
                 },
                 style: ButtonStyle(
                   textStyle: WidgetStateProperty.all(
