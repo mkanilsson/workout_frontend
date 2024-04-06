@@ -3,6 +3,7 @@ import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
 import 'package:workout_frontend/pages/exercise_history.dart';
+import 'package:workout_frontend/routes.dart';
 import 'package:workout_frontend/theme.dart';
 
 class ExercisesPage extends StatefulWidget {
@@ -104,32 +105,31 @@ class _ExercisesPageState extends State<ExercisesPage> {
               itemBuilder: (context) => [
                 PopupMenuItem(
                   child: const Text(
+                    "Edit",
+                  ),
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(editExercise(_exercises[index]))
+                        .then((editedExercise) {
+                      setState(
+                        () {
+                          for (var i = 0; i < _exercises.length; i++) {
+                            if (_exercises[i].id == editedExercise.id) {
+                              _exercises[i] = editedExercise;
+                              break;
+                            }
+                          }
+                        },
+                      );
+                    });
+                  },
+                ),
+                PopupMenuItem(
+                  child: const Text(
                     "Delete",
                   ),
                   onTap: () {
-                    ExerciseAPI.delete(
-                      AuthService.token!,
-                      _exercises[index].id,
-                    ).then((response) {
-                      if (response.status == ResponseStatus.success) {
-                        setState(() {
-                          _exercises = _exercises
-                              .where(
-                                (element) => element.id != response.data!.id,
-                              )
-                              .toList();
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              "Failed to remove '${_exercises[index].name}'",
-                            ),
-                            backgroundColor: COLOR_ERROR,
-                          ),
-                        );
-                      }
-                    });
+                    delete(_exercises[index]);
                   },
                 ),
               ],
@@ -139,6 +139,54 @@ class _ExercisesPageState extends State<ExercisesPage> {
         separatorBuilder: (BuildContext context, int index) {
           return const SizedBox(height: 5);
         },
+      ),
+    );
+  }
+
+  void delete(ExerciseResponse exercise) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Remove exercise"),
+        content: Text(
+          "Are you sure you want to remove '${exercise.name}'?\nThis will remove all history and can't be undone!",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              ExerciseAPI.delete(
+                AuthService.token!,
+                exercise.id,
+              ).then((response) {
+                if (response.status == ResponseStatus.success) {
+                  setState(() {
+                    _exercises = _exercises
+                        .where(
+                          (element) => element.id != response.data!.id,
+                        )
+                        .toList();
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "Failed to remove '${exercise.name}'",
+                      ),
+                      backgroundColor: COLOR_ERROR,
+                    ),
+                  );
+                }
+              });
+            },
+            child: const Text("Remove"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Cancel"),
+          ),
+        ],
       ),
     );
   }

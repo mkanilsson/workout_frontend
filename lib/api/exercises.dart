@@ -195,6 +195,18 @@ class ExerciseAPI {
         json, ExerciseResponse.fromJson);
   }
 
+  static Future<Response<ExerciseResponse>> update(
+      String token, String id, String name, ExerciseType exerciseType) async {
+    var json = await API.putWithAuth(
+      "/exercises/$id",
+      token,
+      {"name": name, "exercise_type": exerciseType.value},
+    );
+
+    return Response<ExerciseResponse>.fromJsonMap(
+        json, ExerciseResponse.fromJson);
+  }
+
   static Future<Response<List<ExerciseHistory>>> getHistory(
     String token,
     String exerciseId,
