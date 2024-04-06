@@ -64,4 +64,9 @@ ThemeData theme = ThemeData(
       foregroundColor: WidgetStateProperty.all(COLOR_FORGROUND),
     ),
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: const TextStyle(
+      color: COLOR_FORGROUND_ALT,
+    ),
+  ),
 );

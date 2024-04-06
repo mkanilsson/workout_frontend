@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
 import 'package:workout_frontend/auth_service.dart';
@@ -15,6 +16,7 @@ class _WorkoutAddExercisePageState extends State<WorkoutAddExercisePage> {
   var _loading = true;
   var _success = true;
   List<ExerciseResponse> _exercises = [];
+  List<ExerciseResponse> _filteredExercises = [];
   String _message = "";
 
   @override
@@ -36,6 +38,7 @@ class _WorkoutAddExercisePageState extends State<WorkoutAddExercisePage> {
       _message = response.message;
       if (_success) {
         _exercises = response.data!;
+        _filteredExercises = _exercises;
       }
     });
   }
@@ -81,23 +84,61 @@ class _WorkoutAddExercisePageState extends State<WorkoutAddExercisePage> {
   Widget loaded() {
     return Container(
       padding: const EdgeInsets.all(5),
-      child: ListView.separated(
-        itemCount: _exercises.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(
-              _exercises[index].name,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 15.0,
             ),
-            subtitle: Text(_exercises[index].exerciseType.description),
-            onTap: () {
-              Navigator.of(context).pop(_exercises[index]);
-            },
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(height: 5);
-        },
+            child: TextField(
+              decoration: const InputDecoration(
+                hintText: "Search",
+              ),
+              onChanged: filter,
+            ),
+          ),
+          Expanded(
+            child: ListView.separated(
+              itemCount: _filteredExercises.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(
+                    _filteredExercises[index].name,
+                  ),
+                  subtitle:
+                      Text(_filteredExercises[index].exerciseType.description),
+                  onTap: () {
+                    Navigator.of(context).pop(_filteredExercises[index]);
+                  },
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 5);
+              },
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  void filter(String query) {
+    var sanitizedQuery = sanitizeText(query);
+
+    List<ExerciseResponse> newFilteredList = [];
+
+    for (var exercise in _exercises) {
+      if (sanitizeText(exercise.name).contains(sanitizedQuery) || query == "") {
+        newFilteredList.add(exercise);
+      }
+    }
+
+    setState(() {
+      _filteredExercises = newFilteredList;
+    });
+  }
+
+  String sanitizeText(String text) {
+    return text.replaceAll(" ", "").toLowerCase().trim();
   }
 }
