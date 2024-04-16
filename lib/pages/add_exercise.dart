@@ -79,7 +79,7 @@ class _AddExercisePage extends State<AddExercisePage> {
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         title: const Text("Workout"),
       ),
-      body: loaded(),
+      body: SingleChildScrollView(child: loaded()),
     );
   }
 
