@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/exercises.dart';
+import 'package:workout_frontend/api/target.dart';
 import 'package:workout_frontend/auth_service.dart';
 
 class AddExercisePage extends StatefulWidget {
@@ -16,6 +17,8 @@ class _AddExercisePage extends State<AddExercisePage> {
   final nameController = TextEditingController();
 
   var _selectedExerciseType = ExerciseType.weightOverAmount;
+  List<TargetResponse> _targets = [];
+  List<String> _selectedTargetIds = [];
 
   void add() {
     if (widget.exercise == null) {
@@ -23,6 +26,7 @@ class _AddExercisePage extends State<AddExercisePage> {
         AuthService.token!,
         nameController.text,
         _selectedExerciseType,
+        _selectedTargetIds,
       ).then((response) {
         if (response.status == ResponseStatus.failure) {
           showFailedToAddDialog();
@@ -36,6 +40,7 @@ class _AddExercisePage extends State<AddExercisePage> {
         widget.exercise!.id,
         nameController.text,
         _selectedExerciseType,
+        _selectedTargetIds,
       ).then((response) {
         if (response.status == ResponseStatus.failure) {
           showFailedToAddDialog();
@@ -49,9 +54,20 @@ class _AddExercisePage extends State<AddExercisePage> {
   @override
   void initState() {
     super.initState();
+
+    TargetAPI.getAllTargets().then((response) {
+      // TODO: Better handling of error. Maybe cache all targets on start as they rarely change
+      if (response.status != ResponseStatus.success) return;
+
+      setState(() {
+        _targets = response.data!;
+      });
+    });
+
     if (widget.exercise != null) {
       nameController.text = widget.exercise!.name;
       _selectedExerciseType = widget.exercise!.exerciseType;
+      _selectedTargetIds = widget.exercise!.targets.map((e) => e.id).toList();
     }
   }
 
@@ -68,6 +84,28 @@ class _AddExercisePage extends State<AddExercisePage> {
   }
 
   Widget loaded() {
+    var chips = _targets
+        .map(
+          (e) => FilterChip(
+            label: Text(e.name),
+            selected: _selectedTargetIds.contains(e.id),
+            onSelected: (selected) {
+              setState(
+                () {
+                  if (selected) {
+                    _selectedTargetIds.add(e.id);
+                  } else {
+                    _selectedTargetIds = _selectedTargetIds
+                        .where((element) => element != e.id)
+                        .toList();
+                  }
+                },
+              );
+            },
+          ),
+        )
+        .toList();
+
     return Container(
       padding: const EdgeInsets.all(25),
       child: Center(
@@ -138,6 +176,24 @@ class _AddExercisePage extends State<AddExercisePage> {
                 }
               },
               isExpanded: true,
+            ),
+            const SizedBox(height: 35),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Targets",
+                style: TextStyle(
+                  fontSize: 16,
+                  height: 0.5,
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            const SizedBox(height: 15),
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: chips,
             ),
             const SizedBox(height: 35),
             TextButton(

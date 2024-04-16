@@ -45,6 +45,14 @@ class Response<T> {
 }
 
 class API {
+  static Future<Map<String, dynamic>> get(String endpoint) async {
+    var response = await http.get(
+      Uri.parse("$baseURL/api$endpoint"),
+    );
+
+    return jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+  }
+
   static Future<Map<String, dynamic>> post(
       String endpoint, dynamic body) async {
     var response = await http.post(

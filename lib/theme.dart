@@ -69,4 +69,7 @@ ThemeData theme = ThemeData(
       color: COLOR_FORGROUND_ALT,
     ),
   ),
+  chipTheme: const ChipThemeData(
+    selectedColor: COLOR_PRIMARY,
+  ),
 );

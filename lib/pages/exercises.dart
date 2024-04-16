@@ -86,6 +86,10 @@ class _ExercisesPageState extends State<ExercisesPage> {
       child: ListView.separated(
         itemCount: _exercises.length,
         itemBuilder: (BuildContext context, int index) {
+          var targets = _exercises[index].targets.map((e) => e.name).toList();
+          targets.insert(0, _exercises[index].exerciseType.description);
+          var subtitle = targets.join(", ");
+
           return ListTile(
             title: Text(
               _exercises[index].name,
@@ -100,7 +104,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 ),
               );
             },
-            subtitle: Text(_exercises[index].exerciseType.description),
+            subtitle: Text(subtitle),
             trailing: PopupMenuButton(
               itemBuilder: (context) => [
                 PopupMenuItem(
@@ -111,16 +115,17 @@ class _ExercisesPageState extends State<ExercisesPage> {
                     Navigator.of(context)
                         .push(routes.editExercise(_exercises[index]))
                         .then((editedExercise) {
-                      setState(
-                        () {
-                          for (var i = 0; i < _exercises.length; i++) {
-                            if (_exercises[i].id == editedExercise.id) {
-                              _exercises[i] = editedExercise;
-                              break;
+                      if (editedExercise is ExerciseResponse)
+                        setState(
+                          () {
+                            for (var i = 0; i < _exercises.length; i++) {
+                              if (_exercises[i].id == editedExercise.id) {
+                                _exercises[i] = editedExercise;
+                                break;
+                              }
                             }
-                          }
-                        },
-                      );
+                          },
+                        );
                     });
                   },
                 ),

@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:workout_frontend/api/api.dart';
 import 'package:workout_frontend/api/set.dart';
+import 'package:workout_frontend/api/target.dart';
 
 enum ExerciseType { staticExercise, distanceOverTime, weightOverAmount }
 
@@ -67,12 +68,14 @@ class ExerciseResponse {
   String userId;
   String name;
   ExerciseType exerciseType;
+  List<TargetResponse> targets;
 
   ExerciseResponse({
     required this.id,
     required this.userId,
     required this.name,
     required this.exerciseType,
+    required this.targets,
   });
 
   factory ExerciseResponse.fromJson(Map<String, dynamic> data) {
@@ -91,11 +94,18 @@ class ExerciseResponse {
       default:
     }
 
+    List<TargetResponse> targets = [];
+
+    for (var element in data["targets"]) {
+      targets.add(TargetResponse.fromJson(element));
+    }
+
     return ExerciseResponse(
       id: data["id"],
       userId: data["user_id"],
       name: data["name"],
       exerciseType: exerciseType,
+      targets: targets,
     );
   }
 }
@@ -184,11 +194,19 @@ class ExerciseAPI {
   }
 
   static Future<Response<ExerciseResponse>> create(
-      String token, String name, ExerciseType exerciseType) async {
+    String token,
+    String name,
+    ExerciseType exerciseType,
+    List<String> targetIds,
+  ) async {
     var json = await API.postWithAuth(
       "/exercises",
       token,
-      {"name": name, "exercise_type": exerciseType.value},
+      {
+        "name": name,
+        "exercise_type": exerciseType.value,
+        "targets": targetIds,
+      },
     );
 
     return Response<ExerciseResponse>.fromJsonMap(
@@ -196,11 +214,20 @@ class ExerciseAPI {
   }
 
   static Future<Response<ExerciseResponse>> update(
-      String token, String id, String name, ExerciseType exerciseType) async {
+    String token,
+    String id,
+    String name,
+    ExerciseType exerciseType,
+    List<String> targetIds,
+  ) async {
     var json = await API.putWithAuth(
       "/exercises/$id",
       token,
-      {"name": name, "exercise_type": exerciseType.value},
+      {
+        "name": name,
+        "exercise_type": exerciseType.value,
+        "targets": targetIds,
+      },
     );
 
     return Response<ExerciseResponse>.fromJsonMap(
